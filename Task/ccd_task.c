@@ -4,7 +4,7 @@
 #include <FreeRTOS.h>
 #include <task.h>
 
-#include <ti/display/Display.h>
+#include <ti/drivers/UART.h>
 
 #include <ti_drivers_config.h>
 
@@ -15,22 +15,31 @@
 /* Encoder counter */
 uint16_t ccd_value[128];
 
-extern Display_Handle display;
-
 void ccdTask(void *arg0) {
-    int threshold_auto;
+    UART_Params uartParams;
+    UART_Handle uart;
+    int         threshold_auto;
+    uint8_t     data_trans[20];
+
+    UART_Params_init(&uartParams);
+    uartParams.readDataMode  = UART_DATA_BINARY;
+    uartParams.writeDataMode = UART_DATA_TEXT;
+    uart                     = UART_open(CONFIG_UART_NO_NEWLINE, &uartParams);
+
+    UART_write(uart, "UART open successful.\n", 22);
     CCD_init();
 
     while (1) {
         CCD_read(ccd_value);
-        threshold_auto = otsu(ccd_value, 1, 128, -1, -1, 128, 0);
-        // for (int i = 0; i < 128; i++) {
-        //     ccd_value[i] = ccd_value[i] < threshold_auto ? 0 : 1;
-        // }
-        Display_printf(display, 0, 0, "Threshold: %3d CCD: %5d%5d%5d%5d%5d%5d%5d%5d%5d%5d", threshold_auto,
-                       ccd_value[0], ccd_value[12], ccd_value[24], ccd_value[36], ccd_value[48], ccd_value[60],
-                       ccd_value[72], ccd_value[84], ccd_value[96], ccd_value[108]);
+        // threshold_auto = otsu(ccd_value, 1, 128, -1, -1, 128, 0);
+        UART_write(uart, "T", 1);
+        for (int i = 0; i < 128; i++) {
+            data_trans[0] = ccd_value[i];
+            // data_trans[0] = data_trans[0] > 230 ? 255 : 0;
+            data_trans[0] = data_trans[0] < 80 ? 0 : 255;
+            UART_write(uart, data_trans, 1);
+        }
         /* Wait for interating */
-        vTaskDelay(20);
+        vTaskDelay(200);
     }
 }

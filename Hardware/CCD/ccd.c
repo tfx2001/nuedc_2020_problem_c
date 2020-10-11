@@ -23,9 +23,19 @@ void CCD_init() {
 }
 
 void CCD_read(uint16_t Vaules[128]) {
-    /* 进入临界段防止时序混乱 */
-    taskENTER_CRITICAL();
-    /* Tick 1 */
+    /* 触发采样 */
+    GPIO_write(CONFIG_GPIO_SI, 1);
+    GPIO_write(CONFIG_GPIO_CLK, 1);
+    GPIO_write(CONFIG_GPIO_SI, 0);
+    for (int i = 0; i < 128; i++) {
+        /* Sampling at CLK falling edge */
+        GPIO_write(CONFIG_GPIO_CLK, 0);
+        GPIO_write(CONFIG_GPIO_CLK, 1);
+    }
+    GPIO_write(CONFIG_GPIO_CLK, 0);
+    /* 曝光时间 */
+    vTaskDelay(20);
+    /* 开始采样 */
     GPIO_write(CONFIG_GPIO_SI, 1);
     GPIO_write(CONFIG_GPIO_CLK, 1);
     GPIO_write(CONFIG_GPIO_SI, 0);
@@ -36,5 +46,4 @@ void CCD_read(uint16_t Vaules[128]) {
         GPIO_write(CONFIG_GPIO_CLK, 1);
     }
     GPIO_write(CONFIG_GPIO_CLK, 0);
-    taskEXIT_CRITICAL();
 }
