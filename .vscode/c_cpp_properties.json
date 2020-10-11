@@ -1,0 +1,26 @@
+{
+    "configurations": [
+        {
+            "name": "MSP432",
+            "includePath": [
+                "D:/ti/simplelink_msp432p4_sdk_3_40_01_02/source/**",
+                "D:/ti/FreeRTOSv10.3.1/FreeRTOS/Source/**",
+                "C:/Users/tfx20/Desktop/TI/Workspace/freertos_builds_MSP_EXP432P401R_release_gcc/**",
+                "D:/ti/ccs1010/ccs/tools/compiler/gcc-arm-none-eabi-7-2017-q4-major-win32/arm-none-eabi/include/**",
+                "${workspaceFolder}/**",
+                "Debug/syscfg/",
+                "User_Lib/PID"
+            ],
+            "defines": [
+                "__MSP432P401R__",
+                "DeviceFamily_MSP432P401x"
+            ],
+            "windowsSdkVersion": "10.0.17763.0",
+            "compilerPath": "D:\\ti\\ccs1010\\ccs\\tools\\compiler\\gcc-arm-none-eabi-7-2017-q4-major-win32\\bin\\arm-none-eabi-gcc.exe",
+            "cStandard": "c99",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-arm"
+        }
+    ],
+    "version": 4
+}

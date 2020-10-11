@@ -1,0 +1,101 @@
+/**
+ * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
+ * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
+ * @cliArgs --board "/ti/boards/MSP_EXP432P401R" --product "simplelink_msp432p4_sdk@3.40.01.02"
+ * @versions {"data":"2020052512","timestamp":"2020052512","tool":"1.5.0+1397","templates":"2020052512"}
+ */
+
+/**
+ * Import the modules used in this configuration.
+ */
+const Display  = scripting.addModule("/ti/display/Display", {}, false);
+const Display1 = Display.addInstance();
+const ADC      = scripting.addModule("/ti/drivers/ADC", {}, false);
+const ADC1     = ADC.addInstance();
+const GPIO     = scripting.addModule("/ti/drivers/GPIO", {}, false);
+const GPIO1    = GPIO.addInstance();
+const GPIO2    = GPIO.addInstance();
+const GPIO3    = GPIO.addInstance();
+const GPIO4    = GPIO.addInstance();
+const GPIO5    = GPIO.addInstance();
+const GPIO6    = GPIO.addInstance();
+const GPIO7    = GPIO.addInstance();
+const GPIO8    = GPIO.addInstance();
+const PWM      = scripting.addModule("/ti/drivers/PWM", {}, false);
+const PWM1     = PWM.addInstance();
+const PWM2     = PWM.addInstance();
+const Power    = scripting.addModule("/ti/drivers/Power");
+const RTOS     = scripting.addModule("/ti/drivers/RTOS");
+
+/**
+ * Write custom configuration values to the imported modules.
+ */
+Display1.$name      = "CONFIG_Display_0";
+Display1.$hardware  = system.deviceData.board.components.XDS110UART;
+Display1.uart.$name = "CONFIG_UART_0";
+
+ADC1.$name      = "CONFIG_ADC_0";
+ADC1.resolution = "8 Bits";
+
+GPIO1.$name = "CONFIG_GPIO_0";
+GPIO1.mode  = "Output";
+
+GPIO2.$name = "CONFIG_GPIO_1";
+GPIO2.mode  = "Output";
+
+GPIO3.$name            = "CONFIG_GPIO_2";
+GPIO3.callbackFunction = "Encoder_Callback";
+GPIO3.interruptTrigger = "High";
+
+GPIO4.$name              = "CONFIG_GPIO_3";
+GPIO4.$hardware          = system.deviceData.board.components.LED1_RED;
+GPIO4.initialOutputState = "High";
+
+GPIO5.$name           = "CONFIG_GPIO_SI";
+GPIO5.mode            = "Output";
+GPIO5.gpioPin.$assign = "boosterpack.29";
+
+GPIO6.$name           = "CONFIG_GPIO_CLK";
+GPIO6.mode            = "Output";
+GPIO6.gpioPin.$assign = "boosterpack.28";
+
+GPIO7.$name            = "CONFIG_GPIO_SDA";
+GPIO7.callbackFunction = "";
+GPIO7.mode             = "Dynamic";
+GPIO7.gpioPin.$assign  = "boosterpack.15";
+
+GPIO8.$name            = "CONFIG_GPIO_SCL";
+GPIO8.callbackFunction = "";
+GPIO8.mode             = "Dynamic";
+GPIO8.gpioPin.$assign  = "boosterpack.14";
+
+PWM1.$name                = "CONFIG_PWM_MOTOR";
+PWM1.timer.$assign        = "Timer_A0";
+PWM1.timer.pwmPin.$assign = "boosterpack.34";
+
+PWM2.$name                = "CONFIG_PWM_SERVO";
+PWM2.timer.$assign        = "Timer_A1";
+PWM2.timer.pwmPin.$assign = "boosterpack.38";
+
+Power.initialPerformanceLevel = 3;
+Power.performanceLevel3.$name = "ti_drivers_power_PowerMSP432PerfLevels0";
+Power.performanceLevel2.$name = "ti_drivers_power_PowerMSP432PerfLevels1";
+Power.performanceLevel1.$name = "ti_drivers_power_PowerMSP432PerfLevels2";
+Power.performanceLevel0.$name = "ti_drivers_power_PowerMSP432PerfLevels3";
+
+RTOS.name = "FreeRTOS";
+
+/**
+ * Pinmux solution for unlocked pins/peripherals. This ensures that minor changes to the automatic solver in a future
+ * version of the tool will not impact the pinmux you originally saw.  These lines can be completely deleted in order to
+ * re-solve from scratch.
+ */
+Display1.uart.uart.$suggestSolution       = "EUSCI_A0";
+Display1.uart.uart.txPin.$suggestSolution = "P1.3.GPIO/EUSCI_A0_UART.TXD/EUSCI_A0_SPI.SIMO";
+Display1.uart.uart.rxPin.$suggestSolution = "P1.2.GPIO/EUSCI_A0_UART.RXD/EUSCI_A0_SPI.SOMI";
+ADC1.adc.$suggestSolution                 = "ADC14";
+ADC1.adc.adcPin.$suggestSolution          = "boosterpack.30";
+GPIO1.gpioPin.$suggestSolution            = "expansion.28";
+GPIO2.gpioPin.$suggestSolution            = "expansion.29";
+GPIO3.gpioPin.$suggestSolution            = "boosterpack.7";
+GPIO4.gpioPin.$suggestSolution            = "P1.0.GPIO/EUSCI_A0_SPI.STE";
