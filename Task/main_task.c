@@ -53,16 +53,13 @@ void mainTask(void *arg0) {
     OLED_ShowStr(0, 0, "hello!", 1);
     taskEXIT_CRITICAL();
 
+    // Motor_SetSpeed(200);
+
     while (1) {
         speed = PID_Calc(&pid_speed, counter_per_100ms, 500);
         // Display_print1(display, 0, 0, "Speed: %d", (uint32_t)speed);
-        for (int i = 60; i < 120; i++) {
-            Servo_setAngle(i);
-            OLED_ShowStr(0, 0, "   ", 3);
-            OLED_ShowStr(0, 0, "   ", 3);
-            vTaskDelay(50);
-        }
-        Motor_SetSpeed((uint32_t)speed);
+        // OLED_ShowStr(0, 0, "   ", 1);
+        // Motor_SetSpeed((int32_t)speed);
         vTaskDelay(100);
     }
 }

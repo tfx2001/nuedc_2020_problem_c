@@ -5,8 +5,8 @@
 
 #include <ti_drivers_config.h>
 
-#define AIN1_GPIO_CONFIG  CONFIG_GPIO_0
-#define AIN2_GPIO_CONFIG  CONFIG_GPIO_1
+#define AIN1_GPIO_CONFIG  CONFIG_GPIO_AIN1
+#define AIN2_GPIO_CONFIG  CONFIG_GPIO_AIN2
 #define MOTOR1_PWM_CONFIG CONFIG_PWM_MOTOR
 
 static PWM_Handle pwm_motor;

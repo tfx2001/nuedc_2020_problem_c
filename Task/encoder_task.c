@@ -17,7 +17,7 @@ extern Display_Handle display;
 
 void encoderTask(void *arg0) {
     /* Enable interrupt */
-    GPIO_enableInt(CONFIG_GPIO_2);
+    GPIO_enableInt(CONFIG_GPIO_ENCODER);
 
     while (1) {
         // Display_print1(display, 0, 0, "Counter: %d", counter);

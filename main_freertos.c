@@ -41,10 +41,11 @@
 
 /* Driver configuration */
 #include <ti/display/Display.h>
+#include <ti/drivers/ADC.h>
 #include <ti/drivers/Board.h>
 #include <ti/drivers/GPIO.h>
 #include <ti/drivers/PWM.h>
-#include <ti/drivers/ADC.h>
+#include <ti/drivers/UART.h>
 
 extern void mainTask(void *arg0);
 extern void encoderTask(void *arg0);
@@ -62,6 +63,7 @@ int main(void) {
     /* Call driver init functions */
     Board_init();
     GPIO_init();
+    UART_init();
     PWM_init();
     Display_init();
     ADC_init();

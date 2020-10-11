@@ -26,26 +26,27 @@ const PWM1     = PWM.addInstance();
 const PWM2     = PWM.addInstance();
 const Power    = scripting.addModule("/ti/drivers/Power");
 const RTOS     = scripting.addModule("/ti/drivers/RTOS");
+const UART     = scripting.addModule("/ti/drivers/UART", {}, false);
+const UART2    = UART.addInstance();
 
 /**
  * Write custom configuration values to the imported modules.
  */
 Display1.$name      = "CONFIG_Display_0";
-Display1.$hardware  = system.deviceData.board.components.XDS110UART;
-Display1.uart.$name = "CONFIG_UART_0";
+Display1.uart.$name = "CONFIG_UART_DISPLAY";
 
 ADC1.$name      = "CONFIG_ADC_0";
 ADC1.resolution = "8 Bits";
 
-GPIO1.$name = "CONFIG_GPIO_0";
 GPIO1.mode  = "Output";
+GPIO1.$name = "CONFIG_GPIO_AIN1";
 
-GPIO2.$name = "CONFIG_GPIO_1";
 GPIO2.mode  = "Output";
+GPIO2.$name = "CONFIG_GPIO_AIN2";
 
-GPIO3.$name            = "CONFIG_GPIO_2";
 GPIO3.callbackFunction = "Encoder_Callback";
 GPIO3.interruptTrigger = "High";
+GPIO3.$name            = "CONFIG_GPIO_ENCODER";
 
 GPIO4.$name              = "CONFIG_GPIO_3";
 GPIO4.$hardware          = system.deviceData.board.components.LED1_RED;
@@ -85,17 +86,23 @@ Power.performanceLevel0.$name = "ti_drivers_power_PowerMSP432PerfLevels3";
 
 RTOS.name = "FreeRTOS";
 
+UART2.$name     = "CONFIG_UART_NO_NEWLINE";
+UART2.$hardware = system.deviceData.board.components.XDS110UART;
+
 /**
  * Pinmux solution for unlocked pins/peripherals. This ensures that minor changes to the automatic solver in a future
  * version of the tool will not impact the pinmux you originally saw.  These lines can be completely deleted in order to
  * re-solve from scratch.
  */
-Display1.uart.uart.$suggestSolution       = "EUSCI_A0";
-Display1.uart.uart.txPin.$suggestSolution = "P1.3.GPIO/EUSCI_A0_UART.TXD/EUSCI_A0_SPI.SIMO";
-Display1.uart.uart.rxPin.$suggestSolution = "P1.2.GPIO/EUSCI_A0_UART.RXD/EUSCI_A0_SPI.SOMI";
+Display1.uart.uart.$suggestSolution       = "EUSCI_A1";
+Display1.uart.uart.txPin.$suggestSolution = "boosterpack.39";
+Display1.uart.uart.rxPin.$suggestSolution = "boosterpack.19";
 ADC1.adc.$suggestSolution                 = "ADC14";
 ADC1.adc.adcPin.$suggestSolution          = "boosterpack.30";
 GPIO1.gpioPin.$suggestSolution            = "expansion.28";
 GPIO2.gpioPin.$suggestSolution            = "expansion.29";
 GPIO3.gpioPin.$suggestSolution            = "boosterpack.7";
 GPIO4.gpioPin.$suggestSolution            = "P1.0.GPIO/EUSCI_A0_SPI.STE";
+UART2.uart.$suggestSolution               = "EUSCI_A0";
+UART2.uart.txPin.$suggestSolution         = "P1.3.GPIO/EUSCI_A0_UART.TXD/EUSCI_A0_SPI.SIMO";
+UART2.uart.rxPin.$suggestSolution         = "P1.2.GPIO/EUSCI_A0_UART.RXD/EUSCI_A0_SPI.SOMI";
