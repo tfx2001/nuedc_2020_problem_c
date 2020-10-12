@@ -49,7 +49,8 @@ typedef struct
     fp32 error[3]; //误差项 0最新 1上一次 2上上次
 
 } PidTypeDef;
-extern void PID_Init(PidTypeDef *pid, uint8_t mode, const fp32 PID[3], fp32 max_out, fp32 max_iout);
-extern fp32 PID_Calc(PidTypeDef *pid, fp32 ref, fp32 set);
-extern void PID_clear(PidTypeDef *pid);
+
+void PID_Init(PidTypeDef *pid, uint8_t mode, const fp32 PID[3], fp32 max_out, fp32 max_iout);
+fp32 PID_Calc(PidTypeDef *pid, fp32 ref, fp32 set);
+void PID_clear(PidTypeDef *pid);
 #endif

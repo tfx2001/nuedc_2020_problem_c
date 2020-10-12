@@ -47,14 +47,18 @@
 #include <ti/drivers/PWM.h>
 #include <ti/drivers/UART.h>
 
+#include <ti/drivers/dpl/SemaphoreP.h>
+
 extern void mainTask(void *arg0);
 extern void encoderTask(void *arg0);
 extern void ccdTask(void *arg0);
+extern void oledTask(void *arg0);
 
 /* Stack size in bytes */
 #define THREADSTACKSIZE 1024
 
-Display_Handle display;
+Display_Handle    display;
+SemaphoreP_Handle semaphore_run;
 
 /*
  *  ======== main ========
@@ -69,12 +73,16 @@ int main(void) {
     Display_init();
     ADC_init();
 
+    /* Create semaphore */
+    semaphore_run = SemaphoreP_createBinary(0);
+
     display = Display_open(Display_Type_UART, NULL);
 
     /* Create task */
-    xTaskCreate(mainTask, "main", THREADSTACKSIZE, NULL, 1, NULL);
-    xTaskCreate(encoderTask, "encoder", THREADSTACKSIZE, NULL, 1, NULL);
-    xTaskCreate(ccdTask, "ccd", THREADSTACKSIZE, NULL, 1, NULL);
+    xTaskCreate(mainTask, "main", 1024, NULL, 1, NULL);
+    xTaskCreate(encoderTask, "encoder", 256, NULL, 1, NULL);
+    xTaskCreate(ccdTask, "ccd", 1024, NULL, 1, NULL);
+    xTaskCreate(oledTask, "oled", 256, NULL, 2, NULL);
 
     vTaskStartScheduler();
 

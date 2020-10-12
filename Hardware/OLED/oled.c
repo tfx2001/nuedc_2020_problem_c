@@ -1,6 +1,9 @@
 #include "oled.h"
 #include "codetab.h"
 
+#include <FreeRTOS.h>
+#include <task.h>
+
 #include <ti/drivers/GPIO.h>
 #include "ti_drivers_config.h"
 

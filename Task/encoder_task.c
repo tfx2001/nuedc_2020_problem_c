@@ -34,8 +34,6 @@ void encoderTask(void *arg0) {
             expeted_speed = 0;
         }
         counter = 0;
-        sprintf(oled_str, "%d", counter_total);
-        OLED_ShowStr(0, 1, oled_str, 1);
         vTaskDelay(100);
     }
 }

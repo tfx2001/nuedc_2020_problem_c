@@ -15,10 +15,9 @@
 #include "Hardware/CCD/ccd.h"
 
 #include "User_Lib/Func/func.h"
-#include "User_Lib/OTSU/otsu.h"
+// #include "User_Lib/OTSU/otsu.h"
 
 extern int16_t expeted_speed;
-
 
 uint16_t ccd_value[128];
 uint16_t ccd_value_filted[128];
@@ -51,7 +50,7 @@ void ccdTask(void *arg0) {
         CCD_read(ccd_value);
         Block_Filter(ccd_value + 5, ccd_value_filted + 5, 118);
         /* 二值化 */
-        UART_write(uart, "T", 1);
+        // UART_write(uart, "T", 1);
         flag = 0;
         for (int i = 0; i < 128; i++) {
             if (ccd_value_filted[i] < 70) {
@@ -62,7 +61,7 @@ void ccdTask(void *arg0) {
             } else {
                 ccd_binary_black[i] = 255;
             }
-            UART_write(uart, ccd_value_filted + i, 1);
+            // UART_write(uart, ccd_value_filted + i, 1);
         }
         /* 找到线 */
         if (flag >= 80) {
