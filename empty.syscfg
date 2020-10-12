@@ -33,7 +33,7 @@ const UART2    = UART.addInstance();
  * Write custom configuration values to the imported modules.
  */
 Display1.$name      = "CONFIG_Display_0";
-Display1.uart.$name = "CONFIG_UART_DISPLAY";
+Display1.uart.$name = "CONFIG_UART_0";
 
 ADC1.$name      = "CONFIG_ADC_0";
 ADC1.resolution = "8 Bits";

@@ -34,7 +34,7 @@ void CCD_read(uint16_t Vaules[128]) {
     }
     GPIO_write(CONFIG_GPIO_CLK, 0);
     /* 曝光时间 */
-    vTaskDelay(20);
+    vTaskDelay(10);
     /* 开始采样 */
     GPIO_write(CONFIG_GPIO_SI, 1);
     GPIO_write(CONFIG_GPIO_CLK, 1);

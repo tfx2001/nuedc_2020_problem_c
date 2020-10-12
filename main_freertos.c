@@ -59,6 +59,7 @@ Display_Handle display;
 /*
  *  ======== main ========
  */
+
 int main(void) {
     /* Call driver init functions */
     Board_init();
