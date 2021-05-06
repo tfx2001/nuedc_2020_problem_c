@@ -14,9 +14,9 @@ uint8_t Block_Judge(uint8_t Value[], uint8_t Size) {
         }
     }
 
-    if (tCountBlack < tCountWhite && tCountBlack > 10) {
+    if (tCountBlack < tCountWhite && tCountBlack > 8) {
         return BLOCK_OK;
-    } else if (tCountWhite < tCountBlack && tCountWhite > 10) {
+    } else if (tCountWhite < tCountBlack && tCountWhite > 8) {
         return BLOCK_OK;
     } else {
         return BLOCK_ERROR;

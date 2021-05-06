@@ -53,10 +53,10 @@ void ccdTask(void *arg0) {
         // UART_write(uart, "T", 1);
         flag = 0;
         for (int i = 0; i < 128; i++) {
-            if (ccd_value_filted[i] < 70) {
+            if (ccd_value_filted[i] < 80) {
                 flag++;
             }
-            if (ccd_value_filted[i] < 60) {
+            if (ccd_value_filted[i] < 80) {
                 ccd_binary_black[i] = 0;
             } else {
                 ccd_binary_black[i] = 255;
@@ -64,7 +64,7 @@ void ccdTask(void *arg0) {
             // UART_write(uart, ccd_value_filted + i, 1);
         }
         /* 找到线 */
-        if (flag >= 80) {
+        if (flag >= 60) {
             expeted_speed = 0;
         } else if (Block_Judge(ccd_binary_black + 5, 118) == BLOCK_OK) {
             mid_point = Block_MidPoint(ccd_value_filted + 5, 118) + 5;

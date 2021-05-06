@@ -27,16 +27,16 @@
 extern Display_Handle    display;
 extern SemaphoreP_Handle semaphore_run;
 
-extern uint32_t counter_per_100ms;
+extern uint32_t encoder_per_100ms;
 extern uint8_t  current_pos;
-extern uint32_t counter_total;
+extern uint32_t encoder_total;
 extern uint8_t  user_mode;
 extern uint8_t  user_value;
 
 const float pid_speed_param[3] = {
-    0.1F,
     0.05F,
-    0.0F,
+    0.03F,
+    0.05F,
 };
 
 const float pid_servo_param[3] = {
@@ -58,7 +58,7 @@ int16_t expeted_speed;
  */
 void mainTask(void *arg0) {
     float      speed;
-    float      angle;
+    float      angle = 90;
     char       oled_str[16];
     TickType_t init_tick;
 
@@ -71,7 +71,7 @@ void mainTask(void *arg0) {
     while (1) {
         /* Pend for semaphore */
         SemaphoreP_pend(semaphore_run, SemaphoreP_WAIT_FOREVER);
-        counter_total = 0;
+        encoder_total = 0;
         /* 开始运行 */
         OLED_ShowStr(0, 3, "                ", 1);
         OLED_ShowStr(0, 3, "Running..", 1);
@@ -84,13 +84,20 @@ void mainTask(void *arg0) {
         while (1) {
             if (!expeted_speed) {
                 break;
+            } else if (encoder_total >= 67000 && user_mode == 0) {
+                break;
             }
-            speed = PID_Calc(&pid_speed, counter_per_100ms, expeted_speed);
+            speed = PID_Calc(&pid_speed, encoder_per_100ms, expeted_speed);
             Motor_SetSpeed(speed >= 0 ? speed : 0);
             if (current_pos) {
-                angle = PID_Calc(&pid_servo, current_pos, 40);
-                Servo_setAngle(-angle + 90);
+                angle = -PID_Calc(&pid_servo, current_pos, 45) + 90;
             }
+            if (encoder_total <= 33000 && user_mode == 0) {
+                angle = angle > 110 ? 110 : angle;
+            } else if (encoder_total > 33000 && encoder_total <= 46000 && user_mode == 0) {
+                angle = 165;
+            }
+            Servo_setAngle(angle);
             vTaskDelay(50);
         }
         Motor_SetSpeed(0);
